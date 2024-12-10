@@ -153,59 +153,49 @@
     .equalizer {
         display: flex;
         align-items: flex-end;
-        height: 150px; /* Fixed height for consistency */
-        gap: 5px;
+        height: 180px; /* Increased height */
+        gap: 6px;
         padding: 20px;
         justify-content: center;
-        margin: 20px 0;
+        margin-bottom: 0;
+        position: relative;
+        z-index: 1;
     }
     .eq-bar {
-        width: clamp(5px, 1vw, 10px);
-        background: linear-gradient(to top, rgba(255,255,255,0.7), rgba(255,255,255,0.9));
-        border-radius: 15px;
-        animation: equalize 1s ease infinite alternate;
-        box-shadow: 0 0 10px rgba(255,255,255,0.3);
-    }
-    @keyframes equalize {
-        0% { height: 20%; }
-        100% { height: 90%; }
-    }
-    @keyframes shine {
-        0% { transform: translateX(-100%) rotate(45deg); }
-        50% { transform: translateX(100%) rotate(45deg); }
-        100% { transform: translateX(-100%) rotate(45deg); }
-    }
-    .music-circle {
-        width: 120px; /* Adjusted size */
-        height: 120px; /* Adjusted size */
-        border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, #ffffff, #2989d8);
-        margin: 20px auto;
-        animation: rotate 4s linear infinite;
-        box-shadow: 0 0 30px rgba(41, 137, 216, 0.6);
+        width: clamp(6px, 1.2vw, 12px);
+        background: linear-gradient(to top, 
+            rgba(255,255,255,0.9),
+            #64B5F6,
+            #2196F3,
+            #1976D2
+        );
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(33,150,243,0.5);
         position: relative;
         overflow: hidden;
     }
-    .music-circle::after {
+    .eq-bar::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
-        animation: shine 3s infinite;
+        background: linear-gradient(45deg, 
+            rgba(255,255,255,0) 0%,
+            rgba(255,255,255,0.8) 50%,
+            rgba(255,255,255,0) 100%
+        );
+        animation: eq-shine 2s infinite;
     }
-    @keyframes rotate {
-        0% { transform: rotate(0deg) scale(1); }
-        50% { transform: rotate(180deg) scale(1.1); }
-        100% { transform: rotate(360deg) scale(1); }
+    @keyframes eq-shine {
+        0% { transform: translateY(-100%) }
+        100% { transform: translateY(100%) }
     }
-    .playing .music-circle {
-        animation-play-state: running;
-    }
-    .paused .music-circle {
-        animation-play-state: paused;
+    @keyframes equalize {
+        0% { height: var(--min-height, 20%); }
+        50% { height: var(--max-height, 90%); }
+        100% { height: var(--min-height, 20%); }
     }
     @media (max-width: 768px) {
         .radio-container {
@@ -250,6 +240,43 @@
         margin: 20px auto;
         padding: clamp(20px, 3vw, 40px);
         min-height: 400px;
+    }
+    .music-circle {
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(45deg, #1e5799, #2989d8, #207cca, #7db9e8);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        transform-origin: center;
+    }
+    .music-circle::before {
+        content: '';
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        top: 5px;
+        left: 5px;
+        background: url('dulce.jpg') center/cover;
+        border-radius: 50%;
+        animation: rotateImage 10s linear infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    }
+    .music-circle.playing::before {
+        animation-play-state: running;
+    }
+    .music-circle.paused::before {
+        animation-play-state: paused;
+    }
+    @keyframes rotateImage {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
     </style></head><body>
     <div class="container-fluid p-3">
@@ -323,12 +350,30 @@
 
     function toggleEqualizer(show) {
         const bars = equalizer.find('.eq-bar');
-        bars.css('animation-play-state', show ? 'running' : 'paused');
         if (show) {
+            initializeEqualizer();
+            bars.css('animation-play-state', 'running');
             musicCircle.parent().addClass('playing').removeClass('paused');
         } else {
+            bars.css('animation-play-state', 'paused');
             musicCircle.parent().addClass('paused').removeClass('playing');
         }
+    }
+    
+    function initializeEqualizer() {
+        const bars = $('.eq-bar');
+        bars.each(function(index) {
+            const delay = Math.random() * 1000;
+            const minHeight = 20 + Math.random() * 30;
+            const maxHeight = 70 + Math.random() * 30;
+            
+            $(this).css({
+                'animation': `equalize ${1 + Math.random() * 0.5}s ease-in-out infinite alternate`,
+                'animation-delay': `${delay}ms`,
+                '--min-height': `${minHeight}%`,
+                '--max-height': `${maxHeight}%`
+            });
+        });
     }
 
     player.on('error', function(e) {
