@@ -1,361 +1,212 @@
-<html>
+<html><head><base href="?cid="><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"><title>Reproductor Moderno</title><style>
+    html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        -webkit-user-select: none;
+        -ms-user-select: none; 
+        user-select: none;
+    }
+    body {
+        background: linear-gradient(135deg, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%);
+        text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        color: #fff;
+        min-height: 100vh;
+    }
+    .btn {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
+        margin: 0 10px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        line-height: 45px;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+    .vol-size {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    .radio-name {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-weight: 600;
+        color: #fff;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+    .radio-container {
+        padding: clamp(20px, 3vw, 40px);
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border-radius: 30px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        transform: translateY(0);
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    .radio-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.47);
+    }
+    .radio-volume {
+        margin-top: 40px;
+    }
+    .radio-volume i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+    .status {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        margin: 20px 0;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    .status.error {
+        color: #ff4444;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+    input[type="range"] {
+        width: 100%;
+        height: 15px;
+        -webkit-appearance: none;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        margin: 20px 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        box-shadow: -407px 0 0 400px #2989d8;
+        border: 4px solid #2989d8;
+    }
+    .equalizer {
+        display: flex;
+        align-items: flex-end;
+        height: clamp(100px, 20vw, 200px);
+        gap: 5px;
+        padding: 20px;
+        justify-content: center;
+    }
+    .eq-bar {
+        width: clamp(5px, 1vw, 10px);
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        animation: equalize 1s ease infinite alternate;
+    }
+    @keyframes equalize {
+        0% { height: 20%; }
+        100% { height: 90%; }
+    }
+    .eq-bar:nth-child(1) { animation-delay: 0.1s; }
+    .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.3s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(5) { animation-delay: 0.5s; }
+    .eq-bar:nth-child(6) { animation-delay: 0.6s; }
+    .eq-bar:nth-child(7) { animation-delay: 0.7s; }
+    .eq-bar:nth-child(8) { animation-delay: 0.8s; }
 
-<head>
-    <base href="?cid=">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
-    <link rel="icon" type="image/x-icon" href="https://asset.brandfetch.io/idwDWo4ONQ/idFvFIyB0Q.png">
+    .music-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #ffffff, #2989d8);
+        margin: 20px auto;
+        animation: rotate 4s linear infinite;
+        box-shadow: 0 0 30px rgba(41, 137, 216, 0.6);
+    }
 
-    <link rel="icon" type="image/x-icon" href="favicon.png">
-    <title>Reproductor Moderno</title>
-    <style>
-        html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            scroll-behavior: smooth;
-        }
+    @keyframes rotate {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.1); }
+        100% { transform: rotate(360deg) scale(1); }
+    }
 
-        body {
-            background: linear-gradient(135deg, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
-            text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-            color: #fff;
-            min-height: 100vh;
-        }
+    .playing .music-circle {
+        animation-play-state: running;
+    }
 
-        .btn {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
-            margin: 0 10px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            line-height: 45px;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
+    .paused .music-circle {
+        animation-play-state: paused;
+    }
 
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease;
-        }
-
-        .btn:hover::after {
-            width: 100%;
-            height: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3) !important;
-        }
-
-        .vol-size {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .radio-name {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
-            color: #fff;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-        }
-
-        .radio-container {
-            margin: 20px auto;
-            padding: clamp(20px, 3vw, 40px);
-            min-height: 400px;
-            /* Add consistent height */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            transform: translateY(0);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .radio-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            z-index: 0;
-            transform: translateY(100%);
-            transition: transform 0.4s ease;
-        }
-
-        .radio-container:hover::before {
-            transform: translateY(0);
-        }
-
-        .radio-volume {
-            margin-top: 40px;
-        }
-
-        .radio-volume i {
-            margin-right: 10px;
+    @media (max-width: 768px) {
+        .radio-buttons .btn {
+            width: 50px;
+            height: 50px;
+            margin: 0 5px;
             font-size: 1.2rem;
         }
-
-        .status {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            margin: 20px 0;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-
-        .status.error {
-            color: #ff4444;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        input[type="range"] {
-            width: 100%;
-            height: 15px;
-            -webkit-appearance: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-            margin: 20px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        input[type="range"]:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #fff;
-            cursor: pointer;
-            box-shadow: -407px 0 0 400px #2989d8;
-            border: 4px solid #2989d8;
-        }
-
-        .equalizer {
-            display: flex;
-            align-items: flex-end;
-            height: 180px;
-            /* Increased height */
-            gap: 6px;
-            padding: 20px;
-            justify-content: center;
-            margin-bottom: 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .eq-bar {
-            width: clamp(6px, 1.2vw, 12px);
-            background: linear-gradient(to top,
-                    rgba(255, 255, 255, 0.9),
-                    #64B5F6,
-                    #2196F3,
-                    #1976D2);
-            border-radius: 20px;
-            box-shadow: 0 0 15px rgba(33, 150, 243, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .eq-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg,
-                    rgba(255, 255, 255, 0) 0%,
-                    rgba(255, 255, 255, 0.8) 50%,
-                    rgba(255, 255, 255, 0) 100%);
-            animation: eq-shine 2s infinite;
-        }
-
-        @keyframes eq-shine {
-            0% {
-                transform: translateY(-100%)
-            }
-
-            100% {
-                transform: translateY(100%)
-            }
-        }
-
-        @keyframes equalize {
-            0% {
-                height: var(--min-height, 20%);
-            }
-
-            50% {
-                height: var(--max-height, 90%);
-            }
-
-            100% {
-                height: var(--min-height, 20%);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .radio-container {
-                margin: 15px auto;
-                /* Increased margin for better separation */
-                padding: 20px;
-            }
-
-            .container-fluid {
-                padding: 15px;
-                /* Added container padding for mobile */
-            }
-
-            .col-lg-5,
-            .col-md-6 {
-                padding: 10px;
-                /* Add padding between columns */
-            }
-        }
-
-        @media (max-width: 576px) {
-            .container-fluid {
-                padding: 15px;
-            }
-
-            .radio-container {
-                border-radius: 20px;
-                margin: 10px auto;
-                /* Increased margin for better separation */
-                padding: 15px;
-            }
-
-            .col-lg-5,
-            .col-md-6 {
-                padding: 8px;
-                /* Add padding between columns */
-            }
-        }
-
-        /* Add base styles for columns */
-        .col-lg-5,
-        .col-md-6 {
-            padding: 15px;
-            /* Default padding for all screen sizes */
-        }
-
-        /* Update radio-container base styles */
         .radio-container {
-            margin: 20px auto;
-            padding: clamp(20px, 3vw, 40px);
-            min-height: 400px;
+            margin: 10px auto;
+            padding: 15px;
         }
-
+        .equalizer {
+            height: 150px;
+        }
+        .radio-name {
+            margin-bottom: 20px;
+        }
         .music-circle {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(45deg, #1e5799, #2989d8, #207cca, #7db9e8);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            transform-origin: center;
+            width: 120px;
+            height: 120px;
         }
+    }
 
-        .music-circle::before {
-            content: '';
-            position: absolute;
-            width: 190px;
-            height: 190px;
-            top: 5px;
-            left: 5px;
-            background: url('dulce.jpg') center/cover;
-            border-radius: 50%;
-            animation: rotateImage 10s linear infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    @media (max-width: 576px) {
+        .container-fluid {
+            padding: 10px;
         }
-
-        .music-circle.playing::before {
-            animation-play-state: running;
+        .radio-buttons .btn {
+            width: 40px;
+            height: 40px;
+            margin: 0 3px;
+            font-size: 1rem;
         }
-
-        .music-circle.paused::before {
-            animation-play-state: paused;
+        .equalizer {
+            height: 120px;
         }
-
-        @keyframes rotateImage {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
+        .radio-container {
+            padding: 10px;
         }
-    </style>
-</head>
-
-<body>
+        .radio-volume {
+            margin-top: 20px;
+        }
+        .vol-size {
+            font-size: 1rem;
+        }
+        .music-circle {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    </style></head><body>
     <div class="container-fluid p-3">
-        <h2 class="radio-name text-center">Radio Dulce</h2>
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-6">
+        <h2 class="radio-name text-center">Radio Moderna</h2>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
                 <div class="radio-container">
                     <h3>Ecualizador</h3>
                     <div class="equalizer">
@@ -371,16 +222,16 @@
                     <div class="music-circle"></div>
                 </div>
             </div>
-
-            <div class="col-lg-5 col-md-6">
+            
+            <div class="col-lg-6 col-md-12">
                 <div class="radio-container text-center">
                     <p class="status">
-                        [<span class="icon"><i class="fas fa-volume-up"></i></span>]
+                        [<span class="icon"><i class="fas fa-volume-up"></i></span>] 
                         <span class="text">Reproduciendo...</span>
                     </p>
-
+                    
                     <audio id="player" src="https://stream.zeno.fm/my313e532yzuv" autoplay></audio>
-
+                    
                     <div class="radio-buttons">
                         <button type="button" id="play" class="btn btn-success">
                             <i class="far fa-play-circle"></i>
@@ -391,7 +242,7 @@
                         <button type="button" id="stop" class="btn btn-warning">
                             <i class="far fa-stop-circle"></i>
                         </button>
-
+                        
                         <div class="radio-volume">
                             <div class="form-group">
                                 <input type="range" class="form-control-range" id="vol" value="75" max="100">
@@ -407,124 +258,93 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"></script>
     <script>
-        const statusText = $('.status .text');
-        const statusIcon = $('.status .icon');
-        const volSize = $('.vol-size');
-        const player = $('#player');
-        const equalizer = $('.equalizer');
-        const musicCircle = $('.music-circle');
-        const url = "https://stream.zeno.fm/my313e532yzuv";
+    const statusText = $('.status .text');
+    const statusIcon = $('.status .icon');
+    const volSize = $('.vol-size');
+    const player = $('#player');
+    const equalizer = $('.equalizer');
+    const musicCircle = $('.music-circle');
+    const url = "https://stream.zeno.fm/my313e532yzuv";
 
-        const zeroPad = (num, places) => String(num).padStart(places, '0');
+    const zeroPad = (num, places) => String(num).padStart(places, '0');
 
-        let status = false;
+    let status = false;
 
-        player.prop('volume', 0.75);
+    player.prop('volume', 0.75);
 
-        function toggleEqualizer(show) {
-            const bars = equalizer.find('.eq-bar');
-            if (show) {
-                initializeEqualizer();
-                bars.css('animation-play-state', 'running');
-                musicCircle.parent().addClass('playing').removeClass('paused');
-            } else {
-                bars.css('animation-play-state', 'paused');
-                musicCircle.parent().addClass('paused').removeClass('playing');
-            }
+    function toggleEqualizer(show) {
+        const bars = equalizer.find('.eq-bar');
+        bars.css('animation-play-state', show ? 'running' : 'paused');
+        if (show) {
+            musicCircle.parent().addClass('playing').removeClass('paused');
+        } else {
+            musicCircle.parent().addClass('paused').removeClass('playing');
         }
+    }
 
-        function initializeEqualizer() {
-            const bars = $('.eq-bar');
-            bars.each(function (index) {
-                const delay = Math.random() * 1000;
-                const minHeight = 20 + Math.random() * 30;
-                const maxHeight = 70 + Math.random() * 30;
+    player.on('error', function(e) {
+        console.error('Stream error:', e);
+        statusText.html('Error de transmisión');
+        statusIcon.html('<i class="fas fa-exclamation-triangle"></i>');
+        toggleEqualizer(false);
+    });
 
-                $(this).css({
-                    'animation': `equalize ${1 + Math.random() * 0.5}s ease-in-out infinite alternate`,
-                    'animation-delay': `${delay}ms`,
-                    '--min-height': `${minHeight}%`,
-                    '--max-height': `${maxHeight}%`
-                });
+    $(document).ready(function() {
+        if (player.attr('src') == '#') {
+            player.attr('src', url);
+        }
+        
+        if (false === status) {
+            player.get(0).play().then(function() {
+                status = true;
+                statusText.html('Reproduciendo...');
+                statusIcon.html('<i class="fas fa-volume-up"></i>');
+                toggleEqualizer(true);
+            }).catch(function() {
+                statusText.html('¡Haz clic en <strong>Play</strong> para escuchar!');
+                toggleEqualizer(false);
             });
         }
 
-        player.on('error', function (e) {
-            console.error('Stream error:', e);
-            statusText.html('Error de transmisión');
-            statusIcon.html('<i class="fas fa-exclamation-triangle"></i>');
-            toggleEqualizer(false);
-        });
-
-        $(document).ready(function () {
-            if (player.attr('src') == '#') {
-                player.attr('src', url);
-            }
-
+        $('#play').click(function() {
             if (false === status) {
-                player.get(0).play().then(function () {
-                    status = true;
-                    statusText.html('Reproduciendo...');
-                    statusIcon.html('<i class="fas fa-volume-up"></i>');
-                    toggleEqualizer(true);
-                }).catch(function () {
-                    statusText.html('¡Haz clic en <strong>Play</strong> para escuchar!');
-                    toggleEqualizer(false);
-                });
+                status = true;
+                if (player.attr('src') == '#') {
+                    player.attr('src', url);
+                }
+                player.get(0).play();
+                statusText.html('Reproduciendo...');
+                statusIcon.html('<i class="fas fa-volume-up"></i>');
+                toggleEqualizer(true);
             }
-
-            $('#play').click(function () {
-                if (false === status) {
-                    status = true;
-                    if (player.attr('src') == '#') {
-                        player.attr('src', url);
-                    }
-                    player.get(0).play();
-                    statusText.html('Reproduciendo...');
-                    statusIcon.html('<i class="fas fa-volume-up"></i>');
-                    toggleEqualizer(true);
-                }
-            });
-
-            $('#pause').click(function () {
-                if (true === status) {
-                    status = false;
-                    player.get(0).pause();
-                    statusText.html('Pausado');
-                    statusIcon.html('<i class="fas fa-volume-mute"></i>');
-                    toggleEqualizer(false);
-                }
-            });
-
-            $('#stop').click(function () {
-                if (true === status) {
-                    status = false;
-                    player.attr('src', '#');
-                    player.get(0).pause();
-                    statusText.html('Detenido');
-                    statusIcon.html('<i class="fas fa-volume-mute"></i>');
-                    toggleEqualizer(false);
-                }
-            });
-
-            $("#vol").change(function () {
-                let volume = $(this).val();
-                volSize.html(zeroPad(volume, 2) + '%');
-                player.prop("volume", volume / 100);
-            });
-
-            $('.btn').on('mousedown', function () {
-                $(this).css('transform', 'scale(0.95)');
-            }).on('mouseup mouseleave', function () {
-                $(this).css('transform', 'scale(1)');
-            });
-
-            $('#vol').on('input', function () {
-                const volume = $(this).val() / 100;
-                $(player).animate({ volume: volume }, 100);
-            });
         });
-    </script>
-</body>
 
-</html>
+        $('#pause').click(function() {
+            if (true === status) {
+                status = false;
+                player.get(0).pause();
+                statusText.html('Pausado');
+                statusIcon.html('<i class="fas fa-volume-mute"></i>');
+                toggleEqualizer(false);
+            }
+        });
+
+        $('#stop').click(function() {
+            if (true === status) {
+                status = false;
+                player.attr('src', '#');
+                player.get(0).pause();
+                statusText.html('Detenido');
+                statusIcon.html('<i class="fas fa-volume-mute"></i>');
+                toggleEqualizer(false);
+            }
+        });
+
+        $("#vol").change(function() {
+            let volume = $(this).val();
+            volSize.html(zeroPad(volume, 2) + '%');
+            player.prop("volume", volume / 100);
+        });
+    });
+    </script>
+</body></html>
